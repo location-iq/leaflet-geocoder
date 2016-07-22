@@ -34,8 +34,6 @@ function test (complete, fail) {
     configFile: path.join(__dirname, '/spec/karma.conf.js')
   };
 
-  testConfig.browsers = ['PhantomJS'];
-
   function isArgv (optName) {
     return process.argv.indexOf(optName) !== -1;
   }

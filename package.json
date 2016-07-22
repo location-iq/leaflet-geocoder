@@ -62,6 +62,7 @@
     "happen": "0.3.1",
     "jake": "8.0.15",
     "karma": "1.6.0",
+    "karma-browserstack-launcher": "1.0.0",
     "karma-chrome-launcher": "2.0.0",
     "karma-coverage": "1.1.1",
     "karma-coveralls": "1.1.2",

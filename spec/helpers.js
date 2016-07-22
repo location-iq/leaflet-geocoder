@@ -10,3 +10,19 @@ function loadJSON (path, callback) {
   };
   xobj.send(null);
 }
+
+// Polyfills for Internet Explorer 8
+if (!document.querySelector) {
+  document.querySelector = function (selectors) {
+    var elements = document.querySelectorAll(selectors);
+    return (elements.length) ? elements[0] : null;
+  };
+}
+
+if (typeof Array.prototype.forEach !== 'function') {
+  Array.prototype.forEach = function (callback, context) {
+    for (var i = 0; i < this.length; i++) {
+      callback.apply(context, [this[i], i, this]);
+    }
+  };
+}

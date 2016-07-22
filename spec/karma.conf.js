@@ -8,6 +8,10 @@ module.exports = function (config) {
     'node_modules/happen/happen.js',
     // Leaflet library
     'node_modules/leaflet/dist/leaflet.js',
+    { pattern: 'node_modules/leaflet/dist/images/*.png',
+      watched: false,
+      included: false,
+      served: true },
     // Geocoder plugin
     'dist/leaflet-geocoder-mapzen.js',
     // Helpers
@@ -38,7 +42,8 @@ module.exports = function (config) {
       'karma-chrome-launcher',
       'karma-safari-launcher',
       'karma-firefox-launcher',
-      'karma-spec-reporter'
+      'karma-spec-reporter',
+      'karma-browserstack-launcher'
     ],
 
     // frameworks to use
@@ -83,6 +88,36 @@ module.exports = function (config) {
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: false,
 
+    // BrowserStack
+    browserStack: {
+      username: process.env.BROWSERSTACK_USERNAME,
+      accessKey: process.env.BROWSERSTACK_KEY
+    },
+
+    // define browsers
+    customLaunchers: {
+      bs_firefox_mac: {
+        base: 'BrowserStack',
+        browser: 'firefox',
+        browser_version: '21.0',
+        os: 'OS X',
+        os_version: 'Mountain Lion'
+      },
+      // bs_ie8: {
+      //   base: 'BrowserStack',
+      //   browser: 'ie',
+      //   browser_version: '8',
+      //   os: 'Windows',
+      //   os_version: '7'
+      // },
+      // bs_iphone5: {
+      //   base: 'BrowserStack',
+      //   device: 'iPhone 5',
+      //   os: 'ios',
+      //   os_version: '6.0'
+      // }
+    },
+
     // Start these browsers, currently available:
     // - Chrome
     // - ChromeCanary
@@ -91,7 +126,7 @@ module.exports = function (config) {
     // - Safari (only Mac)
     // - PhantomJS
     // - IE (only Windows)
-    browsers: ['PhantomJS'],
+    browsers: ['PhantomJS', 'bs_firefox_mac', /*'bs_ie8', 'bs_iphone5'*/],
 
     // If browser does not capture in given timeout [ms], kill it
     captureTimeout: 5000,

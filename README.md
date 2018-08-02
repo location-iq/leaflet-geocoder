@@ -1,18 +1,13 @@
-[![npm version](https://img.shields.io/npm/v/leaflet-geocoder-mapzen.svg?style=flat-square)](https://www.npmjs.com/package/leaflet-geocoder-mapzen)
-[![CircleCI](https://img.shields.io/circleci/project/mapzen/leaflet-geocoder.svg?style=flat-square)](https://circleci.com/gh/mapzen/leaflet-geocoder/)
-[![David devDependencies](https://img.shields.io/david/dev/mapzen/leaflet-geocoder.svg?style=flat-square)](https://david-dm.org/mapzen/leaflet-geocoder/#info=devDependencies)
-[![Coverage Status](https://img.shields.io/coveralls/mapzen/leaflet-geocoder.svg?style=flat-square)](https://coveralls.io/github/mapzen/leaflet-geocoder?branch=master)
-[![Gitter chat](https://img.shields.io/gitter/room/pelias/pelias.svg?style=flat-square)](https://gitter.im/pelias/pelias)
 [![Leaflet 1.0.0 ready](https://img.shields.io/badge/Leaflet%201.0.0-%E2%9C%93-brightgreen.svg?style=flat-square)](http://leafletjs.com/)
 
-Leaflet + Mapzen Search geocoding plugin
+Leaflet + LocationIQ Autocomplete geocoding plugin
 ========================================
 
-A plugin that adds the ability to search (geocode) a Leaflet-powered map using [Mapzen Search](https://mapzen.com/projects/search) or your own hosted version of the [Pelias Geocoder API](https://github.com/pelias/api).
+A plugin that adds the ability to search (geocode) a Leaflet-powered map using [LocationIQ](https://locationiq.com).
 
 ## Demo
 
-[See it in action!](https://nextzen.github.io/leaflet-geocoder)
+[See it in action!](https://maps.locationiq.com)
 
 ## Requirements
 
@@ -20,12 +15,12 @@ Requires the **[Leaflet](https://github.com/Leaflet/Leaflet)** mapping library. 
 
 **Browser support** is IE8+ [(more details below)](#browser-support).
 
-To use the Mapzen Search service, **you need a Mapzen API key**.
-Get one from the [Mapzen developers portal](http://mapzen.com/developers/). It's free!
+To use the LocationIQ service, **you need a LocationIQ API key**.
+Get one from [here](https://locationiq.com/#register). It's free!
 
 ## Basic usage
 
-**Step 1:** In HTML, import the required Leaflet JavaScript and CSS files. Start quickly with hosted libraries on [cdnjs](http://cdnjs.com/libraries/leaflet-geocoder-mapzen)!
+**Step 1:** In HTML, import the required Leaflet JavaScript and CSS files. Start quickly with hosted libraries!
 
 ```html
 <!-- Load Leaflet from CDN -->
@@ -33,8 +28,8 @@ Get one from the [Mapzen developers portal](http://mapzen.com/developers/). It's
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
 
 <!-- Load geocoding plugin after Leaflet -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.9.4/leaflet-geocoder-mapzen.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.9.4/leaflet-geocoder-mapzen.js"></script>
+<link rel="stylesheet" href="https://maps.locationiq.com/v2/libs/leaflet-geocoder/1.9.5/leaflet-geocoder-locationiq.min.css">
+<script src="https://maps.locationiq.com/v2/libs/leaflet-geocoder/1.9.5/leaflet-geocoder-locationiq.min.js"></script>
 ```
 
 **Step 2:** In JavaScript, initialize your Leaflet map.
@@ -42,57 +37,16 @@ Get one from the [Mapzen developers portal](http://mapzen.com/developers/). It's
 ```javascript
 // This is an example of Leaflet usage; you should modify this for your needs.
 var map = L.map('map').setView([40.7259, -73.9805], 12);
-L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+L.tileLayer('https://{s}-tiles.locationiq.com/v2/obk/r/{z}/{x}/{y}.png?key=<your_access_token>').addTo(map);
 ```
 
-**Step 3:** In JavaScript, add your geocoder with your [Mapzen API key]((http://mapzen.com/developers/)).
+**Step 3:** In JavaScript, add your geocoder with your [LocationIQ API key]((https://locationiq.com/#register)).
 
 ```javascript
 L.control.geocoder('<your-api-key>').addTo(map);
 ```
 
 **Step 4**: Rejoice!
-
-### There is also a tutorial
-
-It has much more detailed walkthrough instructions and is very friendly for beginners. No coding experience is necessary! [Check it out here](https://mapzen.com/documentation/search/add-search-to-a-map/).
-
-### Want this as a module?
-
-Experienced developers can install with [npm](https://www.npmjs.com/):
-
-```sh
-npm install leaflet-geocoder-mapzen
-```
-
-And then import it in your module system. For instance, with [Browserify](http://browserify.org/):
-
-```javascript
-// Require Leaflet first
-var L = require('leaflet');
-
-// Requiring the plugin extends Leaflet automatically
-require('leaflet-geocoder-mapzen');
-
-// You can also store a reference to the geocoder constructor in the require()
-var MyGeocoderPlugin = require('leaflet-geocoder-mapzen');
-
-// Now you can do step 2 and 3 from "Basic usage" instructions, above
-```
-
-This plugin implements the [Universal Module Definition](https://github.com/umdjs/umd) so you can also use it in AMD and CommonJS environments.
-
-#### ES2015 (ECMAScript 6)
-
-To import this plugin in ES2015 environments, the `import` syntax is supported:
-
-```javascript
-import L from 'leaflet';
-import 'leaflet-geocoder-mapzen';
-
-// Alternatively
-import MyGeocoderPlugin from 'leaflet-geocoder-mapzen';
-```
 
 ## Customizing the plugin
 
@@ -112,16 +66,13 @@ Here are a list all the settings and their default values.
 
 ### Query behavior
 
-Some options affect the Mapzen Search / Pelias query itself.
+Some options affect the LocationIQ query itself.
 
 option      | description                               | default value
 ----------- | ----------------------------------------- | ---------------------
-**url** | _String._ Host endpoint for a Pelias-compatible search API. | `'https://search.mapzen.com/v1'`
-**bounds** | _[Leaflet LatLngBounds object](http://leafletjs.com/reference.html#latlngbounds)_ or _Boolean_. If `true`, search is bounded by the current map view. You may also provide a custom bounding box in form of a LatLngBounds object. _Note: `bounds` is not supported by autocomplete._ | `false`
+**url** | _String._ Host API endpoint for LocationIQ. | `'https://api.locationiq.com/v1'`
 **focus** | _[Leaflet LatLng object](http://leafletjs.com/reference.html#latlng)_ or _Boolean_. If `true`, search and autocomplete prioritizes results near the center of the current view. You may also provide a custom LatLng value (in any of the [accepted Leaflet formats](http://leafletjs.com/reference.html#latlng)) to act as the center bias. | `true`
-**latlng** | _Deprecated._ Please use **focus** instead. |
-**layers** | _String_ or _Array_. Filters results by layers ([documentation](https://mapzen.com/documentation/search/search/#filter-by-data-type)). If left blank, results will come from all available layers. | `null`
-**params** | _Object_. An object of key-value pairs which will be serialized into query parameters that will be passed to the API. This allows custom queries that are not already supported by the convenience options listed above. For a full list of supported parameters, please read the [Mapzen Search documentation](https://mapzen.com/documentation/search/). **IMPORTANT: some parameters only work with the `/search` endpoint, and do not apply to `/autocomplete` requests! All supplied parameters are passed through; this library doesn't know which are valid parameters and which are not.** In the event that other options conflict with parameters passed passed through `params`, the `params` option takes precedence. | `null`
+**params** | _Object_. An object of key-value pairs which will be serialized into query parameters that will be passed to the API. This allows custom queries that are not already supported by the convenience options listed above. For a full list of supported parameters, please read the [LocationIQ Autocomplete API documentation](https://locationiq.com/docs). In the event that other options conflict with parameters passed passed through `params`, the `params` option takes precedence. | `null`
 
 #### Examples
 
@@ -138,56 +89,12 @@ L.control.geocoder('<your-api-key>', {
   placeholder: 'Search nearby'
 }).addTo(map);
 
-// Searching within a bounding box
-var southWest = L.latLng(40.712, -74.227);
-var northEast = L.latLng(40.774, -74.125);
-var bounds = L.latLngBounds(southWest, northEast);
-
-L.control.geocoder('<your-api-key>', {
-  bounds: bounds,
-  placeholder: 'Search within ' + bounds.toBBoxString()
-}).addTo(map);
-
-// Taking just the bounding box of the map view into account
-L.control.geocoder('<your-api-key>', {
-  bounds: true,
-  placeholder: 'Search within the bounds'
-}).addTo(map);
-
-// Coarse Geocoder: search only admin layers
-L.control.geocoder('<your-api-key>', {
-  layers: 'coarse',
-  placeholder: 'Coarse geocoder'
-}).addTo(map);
-
-// Address Geocoder: search only (street) address layers
-L.control.geocoder('<your-api-key>', {
-  layers: 'address',
-  placeholder: 'Address geocoder'
-}).addTo(map);
-
-// POI Geocoder: search only points of interests
-L.control.geocoder('<your-api-key>', {
-  layers: 'venue',
-  placeholder: 'Venues geocoder'
-}).addTo(map);
-
-// Street level Geocoder: search only venue and street addresses
-L.control.geocoder('<your-api-key>', {
-  layers: ['venue', 'address'],
-  placeholder: 'Street geocoder'
-}).addTo(map);
-
-// Custom filtering and bounding parameters
-// For valid parameters, see Mapzen Search documentation for
-// search (https://mapzen.com/documentation/search/search/)
-// and autocomplete (https://mapzen.com/documentation/search/autocomplete/)
-// Note that some parameters use dot notation and so must be quoted
-// in JavaScript otherwise it will result in a syntax error
+// Custom filtering parameters
+// For a full list of params, read the [documentation](https://locationiq.com/docs)
 L.control.geocoder('<your-api-key>', {
   params: {
-    sources: 'whosonfirst',
-    'boundary.country': 'AUS'
+    bounded: 1,
+    countrycodes: 'IN,US'
   },
   placeholder: 'Results via Who’s on First in Australia'
 }).addTo(map);
@@ -200,19 +107,16 @@ These options affect the plugin's appearance and interaction behavior.
 option      | description                               | default value
 ----------- | ----------------------------------------- | ---------------------
 **position** | _String_. Corner in which to place the geocoder control. Values correspond to Leaflet [control positions](http://leafletjs.com/reference.html#control-positions). | `'topleft'`
-**attribution** | _String_. Attribution text that will be appended to Leaflet’s [attribution control](http://leafletjs.com/reference-1.0.3.html#control-attribution). Set to a blank string or `null` to disable adding the plugin’s default attribution. | `'Geocoding by <a href="https://mapzen.com/projects/search/">Mapzen</a>'`
+**attribution** | _String_. Attribution text that will be appended to Leaflet’s [attribution control](http://leafletjs.com/reference-1.0.3.html#control-attribution). Set to a blank string or `null` to disable adding the plugin’s default attribution. | `'Geocoding by <a href="https://locationiq.com/">LocationIQ</a>'`
 **textStrings** | _Object_. An object of string values that replace text strings in the geocoder control, so you can provide your own custom messages or localization. | See “Custom text strings” section below.
 **placeholder** | _String_. Placeholder text to display in the search input box. This is an alias for **`textStrings.INPUT_PLACEHOLDER`**. Set to a blank string or `null` to disable. | `'Search'`
 **title** | _Deprecated._ Please use **`textStrings.INPUT_TITLE_ATTRIBUTE** instead. |
 **panToPoint** | _Boolean_. If `true`, highlighting a search result pans the map to that location. | `true`
-**pointIcon** | _Boolean_ or _String_. If `true`, an icon is used to indicate a point result, matching the "venue" or "address" [layer types]((https://mapzen.com/documentation/search/search/#filter-by-data-type)). If `false`, no icon is displayed. For custom icons, pass a string containing a path to the image. | `true`
-**polygonIcon** | _Boolean_ or _String_. If `true`, an icon is used to indicate a polygonal result, matching any non-"venue" or non-"address" [layer type]((https://mapzen.com/documentation/search/search/#filter-by-data-type)). If `false`, no icon is displayed. For custom icons, pass a string containing a path to the image. | `true`
 **markers** | _[Leaflet Marker options object](http://leafletjs.com/reference.html#marker-options)_ or _Boolean_. If `true`, search results drops Leaflet's default blue markers onto the map. You may customize this marker's appearance and behavior using Leaflet [marker options](http://leafletjs.com/reference.html#marker-options). | `true`
 **overrideBbox** | _Boolean_. Some search results will zoom to a bounding box if it is available, instead of dropping a point marker. If `true`, selecting a result will always drop a point marker regardless of whether bounding box data is present. | `false`
 **fullWidth** | _Integer_ or _Boolean_. If `true`, the input box will expand to take up the full width of the map container. If an integer breakpoint is provided, the full width applies only if the map container width is below this breakpoint. | `650`
 **expanded** | _Boolean_. If `true`, the search input is always expanded. It does not collapse into a button-only state. | `false`
 **autocomplete** | _Boolean_. If `true`, suggested results are fetched on each keystroke. If `false`, this is disabled and users must obtain results by pressing the Enter key after typing in their query. | `true`
-**place** | _Boolean_. If `true`, selected results will make a request to the service [`/place` endpoint](https://mapzen.com/documentation/search/place/). If `false`, this is disabled. The geocoder does not handle responses to `/place`, you will need to do handle it yourself in the `results` event listener (see below). | `false`
 
 #### Examples
 
@@ -220,18 +124,6 @@ option      | description                               | default value
 // Different position
 L.control.geocoder('<your-api-key>', {
   position: 'topright'
-}).addTo(map);
-
-// Customizing layer icons
-L.control.geocoder('<your-api-key>', {
-  pointIcon: 'http://www.somewhereontheweb.com/download/img/point.png',
-  polygonIcon: 'https://cloud.com/polygon-icon.svg'
-}).addTo(map);
-
-// Disabling layer icons
-L.control.geocoder('<your-api-key>', {
-  pointIcon: false,
-  polygonIcon: false
 }).addTo(map);
 
 // Disable zoom/pan to a point while browsing the results (up/down arrows)
@@ -256,7 +148,7 @@ L.control.geocoder('<your-api-key>', {
 }).addTo(map);
 
 // Changing attribution
-// By default, adds "Geocoding by Mapzen" text with a link
+// By default, adds "Geocoding by LocationIQ" text with a link
 // You can remove this if you like, or change the text.
 L.control.geocoder('<your-api-key>', {
   attribution: null
@@ -278,7 +170,7 @@ string name             | default value
 
 #### HTTP status code errors
 
-Learn more about possible error messages in [Mapzen Search documentation](https://mapzen.com/documentation/search/http-status-codes/). `ERROR_DEFAULT` is a catch-all error that displays when a request returns an error with an unexpected HTTP status code (or none at all) — one example where this can happen is when a browser is prevented from making a request due to a security concern, such as the lack of CORS headers on the search endpoint.
+Learn more about possible error messages in [LocationIQ documentation](https://locationiq.com/docs#errors). `ERROR_DEFAULT` is a catch-all error that displays when a request returns an error with an unexpected HTTP status code (or none at all) — one example where this can happen is when a browser is prevented from making a request due to a security concern, such as the lack of CORS headers on the search endpoint.
 
 string name      | default value
 ---------------- | -------------------------------------------------------------
@@ -311,12 +203,6 @@ L.control.geocoder('<your-api-key>', {
 }).addTo(map);
 ```
 
-[See this in action!](https://mapzen.github.io/leaflet-geocoder/examples/custom-strings.html)
-
-## Advanced usage
-
-Examples with running code can be found in the [examples](https://github.com/mapzen/leaflet-geocoder/tree/master/examples) directory.
-
 ### Alternate syntax
 
 You can instantiate a geocoder with the `new` keyword. Notice that the class names are capitalized. This is what actually happens under the hood of `L.control.geocoder()`, so this syntax does not do anything different, but you may prefer it for clarity or stylistic reasons.
@@ -346,20 +232,6 @@ The plugin extends Leaflet's [Control](http://leafletjs.com/reference.html#contr
 geocoder.setPosition('topright');
 var element = geocoder.getContainer();
 geocoder.removeFrom(map); // or geocoder.remove() in Leaflet v1
-```
-
-### With alternate `require()` or `import` syntax
-
-If you `require()` or `import` and set it to a variable, you can also use `new` with that variable.
-
-```javascript
-var MyGeocoderPlugin = require('leaflet-geocoder-mapzen');
-
-// Alternatively
-import MyGeocoderPlugin from 'leaflet-geocoder-mapzen';
-
-// Then
-var geocoder = new MyGeocoderPlugin('<your-api-key>');
 ```
 
 ### Properties
@@ -424,8 +296,6 @@ event         | description
 **focus**     | Fired when the geocoder is focused on the input.
 **blur**      | Fired when the geocoder loses focus on the input.
 
-Here is [a demo of the events](http://mapzen.github.io/leaflet-geocoder/examples/events.html).
-
 #### Getting data
 
 Certain events will pass data as the first argument to the event listener's callback function.
@@ -436,16 +306,16 @@ In addition to the [base event object](http://leafletjs.com/reference.html#event
 
 property        | description
 --------------- | -------------------------------------------------------------
-**endpoint**    | A string of the Mapzen API endpoint that was called.
+**endpoint**    | A string of the LocationIQ API endpoint that was called.
 **requestType** | A string, either `autocomplete`, `search`, or `place`, depending on the request made.
-**params**      | An object containing the parameters that have been passed to the Mapzen Search request.
-**results**     | The [original response object](https://mapzen.com/documentation/search/response/) returned from Mapzen Search, including all feature geometries and properties.
+**params**      | An object containing the parameters that have been passed to the LocationIQ request.
+**results**     | The original response object returned from LocationIQ, including all feature geometries and properties.
 
 If there was an error with the request, the event object will contain the additional properties:
 
 property         | description
 ---------------- | ------------------------------------------------------------
-**errorCode**    | The HTTP status code received. [More information](https://mapzen.com/documentation/search/http-status-codes/).
+**errorCode**    | The HTTP status code received. [More information](https://locationiq.com/docs#errors).
 **errorMessage** | The error message string that the geocoder will display.
 
 #### on `select` and `highlight`
@@ -454,7 +324,7 @@ property          | description
 ----------------- | -----------------------------------------------------------
 **originalEvent** | The original event object ([`MouseEvent`](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent) or [`KeyboardEvent`](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent)) reported by the browser.
 **latlng**        | A [Leaflet LatLng](http://leafletjs.com/reference.html#latlng) object representing the coordinates of the result.
-**feature**       | The [GeoJSON feature object](https://mapzen.com/documentation/search/response/#list-of-features-returned) from Mapzen Search, including feature geometry and properties.
+**feature**       | The JSON object returned by LocationIQ
 
 #### on `focus` and `blur`
 
@@ -464,26 +334,12 @@ property          | description
 
 ### Browser support
 
-This plugin supports all Leaflet-supported browsers _except_ for Internet Explorer 7. It makes a cross-domain request in Javascript to obtain search results, which is not supported in IE7 without JSONP. Mapzen Search [does not support API requests in JSONP](https://mapzen.com/documentation/search/use-cors/#why-not-jsonp).
+This plugin supports all Leaflet-supported browsers _except_ for Internet Explorer 7. It makes a cross-domain request in Javascript to obtain search results, which is not supported in IE7 without JSONP.
 
-### Using a Pelias-compatible endpoint
+## Local Development
+* Install dependencies with `npm install`
+* For building dist packages, `npm run build`
 
-This project was renamed as of v1.3.0 to be more closely associated with [Mapzen Search](https://mapzen.com/projects/search), the hosted geocoding service provided by Mapzen that requires an API key. You can still point the geocoder at a different service running [Pelias](https://github.com/pelias/pelias), Mapzen's open-source geocoder, by changing the `url` option (see [Query behavior,](#query-behavior) above) to the desired endpoint. If an API key is not required, the parameter may be omitted or be set to `undefined` or `null`.
+## Attribution
 
-### Accessing other plugin internals
-
-Properties and methods used internally by the geocoder are also available on the returned object. These are purposefully not private or obscured, but they are also not publicly documented right now, since functionality may fluctuate without notice. Depending on usage and demand we will lock down and document internal properties and methods for general use. [Please let us know in the issues tracker](https://github.com/mapzen/leaflet-geocoder/issues) if you have feedback.
-
-### Do you support TypeScript?
-
-Not officially. There are [community-supplied type definitions at DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/leaflet-geocoder-mapzen).
-
-## Projects using this plugin
-
-- [Map My Story](http://www.mapmystory.xyz/)
-- [Greenpoint-Williamsburg ToxiCity Map](http://clhenrick.github.io/greenpoint_williamsburg_toxicity_map/)
-- [what3emojis](http://what3emojis.com/map/)
-- [NYC Community Boards](http://louhuang.com/nyc-community-boards)
-- [Wantoid](https://wantoid.com/search/map)
-
-Let us know if you have a project you'd like to share!
+This project is based on work by Mapzen's [leaflet-geocoder](https://github.com/nextzen/leaflet-geocoder) project.

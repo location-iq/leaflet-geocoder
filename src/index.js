@@ -1,10 +1,9 @@
 /*
- * leaflet-geocoder-mapzen
- * Leaflet plugin to search (geocode) using Mapzen Search or your
- * own hosted version of the Pelias Geocoder API.
+ * leaflet-geocoder-locationiq
+ * Leaflet plugin to search (geocode) using LocationIQ Search or your
  *
  * License: MIT
- * (c) Mapzen
+ * (c) LocationIQ
  */
 ;(function (root, factory) { // eslint-disable-line no-extra-semi
   var L;

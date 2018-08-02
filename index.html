@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Mapzen Search + Leaflet geocoding plugin</title>
+    <title>LocationIQ Search + Leaflet geocoding plugin</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
-    <script src="examples/assets/modernizr.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.9.4/leaflet-geocoder-mapzen.css">
+    <link rel="stylesheet" href="https://maps.locationiq.com/v2/libs/leaflet-geocoder/1.9.5/leaflet-geocoder-locationiq.min.css">
     <style>
       html, body {
         overflow: hidden;
@@ -26,44 +25,29 @@
         display: none;
       }
 
-      .leaflet-pelias-expanded,
-      .leaflet-touch .leaflet-pelias-control.leaflet-pelias-expanded {
+      .leaflet-locationiq-expanded,
+      .leaflet-touch .leaflet-locationiq-control.leaflet-locationiq-expanded {
         width: 400px;
       }
 
       /* Swap out the image for search icon when the control is expanded */
-      .leaflet-pelias-control.leaflet-pelias-expanded .leaflet-pelias-search-icon:not(.leaflet-pelias-loading) {
+      .leaflet-locationiq-control.leaflet-locationiq-expanded .leaflet-locationiq-search-icon:not(.leaflet-locationiq-loading) {
         background-image: url('examples/assets/search_blue.png');
       }
 
-      .no-webgl-message {
-        display: none;
-      }
-
-      html.no-webgl .no-webgl-message{
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        box-sizing: border-box;
-        z-index: 1001; /* Ensures visibility in IE8 */
-        padding: 10px;
-        font-family: sans-serif;
-        background-color: lightyellow;
-        border-bottom: 1px solid gold;
-      }
     </style>
   </head>
   <body>
-    <div id="message" class="no-webgl-message">Your browser cannot display the map on this page. <a href="./examples/">Try this one instead.</a></div>
     <div id="map"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
-    <script src="https://mapzen.com/tangram/tangram.min.js"></script>
+    <script type="text/javascript" src="https://tiles.unwiredlabs.com/js/leaflet-unwired.js?v=1"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-hash/0.2.1/leaflet-hash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-geocoder-mapzen/1.9.4/leaflet-geocoder-mapzen.min.js"></script>
+    <script src="https://maps.locationiq.com/v2/libs/leaflet-geocoder/1.9.5/leaflet-geocoder-locationiq.min.js"></script>    
     <script type="text/javascript">
+      // Maps access token goes here
+      var key = 'pk.87f2d9fcb4fdd8da1d647b46a997c727';
+
       // Initial map view
       var INITIAL_LNG = -73.9805;
       var INITIAL_LAT = 40.7259;
@@ -73,18 +57,42 @@
         INITIAL_LNG = Geo.lon;
         INITIAL_LAT = Geo.lat;
       }
+      // Add layers that we need to the map
+      var streets = L.tileLayer.Unwired({key: key, scheme: "streets"});
+      var earth = L.tileLayer.Unwired({key: key, scheme: "earth"});
+      var hybrid = L.tileLayer.Unwired({key: key, scheme: "hybrid"});
+
+
 
       var map = L.map('map', {
         scrollWheelZoom: (window.self === window.top) ? true : false,
         dragging: (window.self !== window.top && L.Browser.touch) ? false : true,
+        layers: [streets],
         tap: (window.self !== window.top && L.Browser.touch) ? false : true,
       }).setView({ lng: INITIAL_LNG, lat: INITIAL_LAT }, 12);
       var hash = new L.Hash(map);
 
+      L.control.zoom({
+          position:'topright'
+      }).addTo(map);
+
+      // Add the 'layers' control
+      L.control.layers({
+          "Streets": streets,
+          "Earth": earth,
+          "Hybrid": hybrid,
+      }, null, {
+          position: "topright"
+      }).addTo(map);
+      // Add the 'scale' control
+      L.control.scale().addTo(map);
+
       // Add geocoder
-      var geocoder = L.control.geocoder('search-MKZrG6M', {
+      var geocoder = L.control.geocoder(key, {
         fullWidth: 650,
-        expanded: true
+        expanded: true,
+        markers: true,
+        url: 'https://api.locationiq.com/v1',
       }).addTo(map);
 
       // Re-sort control order so that geocoder is on top
@@ -94,32 +102,10 @@
       // Focus to geocoder input
       geocoder.focus();
 
-      // Add Tangram scene layer
-      var layer = Tangram.leafletLayer({
-        scene: {
-          import: 'https://mapzen.com/carto/bubble-wrap-style/bubble-wrap.yaml',
-          global: { sdk_mapzen_api_key: 'search-MKZrG6M' }
-        },
-        attribution: 'Rendering by <a href="https://mapzen.com/products/tangram/">Tangram</a> | &copy; OSM contributors'
-      }).addTo(map);
-
       // Adding a script block to post message to the parent container (think iframed demos)
       window.addEventListener('hashchange', function () {
         parent.postMessage(window.location.hash, '*')
       });
-    </script>
-    <script type="text/javascript">
-      // Compatibility checks
-      (function () {
-        var messageEl = document.getElementById('message');
-        var mapEl = document.getElementById('map');
-        var height;
-        // This message box is displayed if Modernizr cannot detect WebGL support.
-        if (messageEl.style.display !== 'none') {
-          height = messageEl.getBoundingClientRect().bottom; // No .height in IE8, but top is assumed to be 0
-          mapEl.style.top = height.toString() + 'px';
-        }
-      })();
     </script>
   </body>
 </html>

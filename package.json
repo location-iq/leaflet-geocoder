@@ -1,7 +1,7 @@
 {
-  "name": "leaflet-geocoder-mapzen",
+  "name": "leaflet-geocoder-locationiq",
   "version": "1.9.4",
-  "description": "Add Mapzen Search geocoding to your Leaflet map.",
+  "description": "Add LocationIQ geocoding to your Leaflet map.",
   "main": "src/index.js",
   "directories": {
     "example": "examples"
@@ -10,35 +10,33 @@
     "build": "npm run build-js && npm run build-css",
     "build-js": "npm run bundle-js && npm run minify-js",
     "build-css": "npm run bundle-css && npm run minify-css",
-    "bundle-js": "browserify -t browserify-shim -p browserify-derequire -o dist/leaflet-geocoder-mapzen.js src/index.js",
+    "bundle-js": "browserify -t browserify-shim -p browserify-derequire -o dist/leaflet-geocoder-locationiq.js src/index.js",
     "bundle-css": "cp src/*.css dist/",
-    "minify-js": "uglifyjs dist/leaflet-geocoder-mapzen.js -o dist/leaflet-geocoder-mapzen.min.js",
-    "minify-css": "cleancss -o dist/leaflet-geocoder-mapzen.min.css dist/leaflet-geocoder-mapzen.css",
+    "minify-js": "uglifyjs dist/leaflet-geocoder-locationiq.js -o dist/leaflet-geocoder-locationiq.min.js",
+    "minify-css": "cleancss -o dist/leaflet-geocoder-locationiq.min.css dist/leaflet-geocoder-locationiq.css",
     "prepublish": "npm run build",
     "pretest": "npm run bundle-js && npm run bundle-css",
     "test": "jake"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mapzen/leaflet-geocoder.git"
+    "url": "https://github.com/locationiq/leaflet-geocoder.git"
   },
   "keywords": [
     "leaflet",
     "plugin",
     "search",
     "geocoder",
-    "pelias",
-    "mapzen"
+    "locationiq"
   ],
   "author": [
-    "Harish Krishna",
-    "Lou Huang <lou@mapzen.com>"
+    "gopi_ar",
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mapzen/leaflet-geocoder/issues"
+    "url": "https://github.com/locationiq/leaflet-geocoder/issues"
   },
-  "homepage": "https://github.com/mapzen/leaflet-geocoder",
+  "homepage": "https://github.com/locationiq/leaflet-geocoder",
   "peerDependencies": {
     "leaflet": "^0.7.x || ^1.0.0 || >=1.0.0-beta.1 || >=1.0.0-rc.1"
   },

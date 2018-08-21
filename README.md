@@ -48,7 +48,7 @@ L.control.geocoder('<your-api-key>').addTo(map);
 
 **Step 4**: Rejoice!
 
-## Advanced usage: To use autocomplete geocoder without the map
+## Advanced usage: Autocomplete without a map
 ### Demo
 
 [See it in action!](https://maps.locationiq.com/search_only.html)

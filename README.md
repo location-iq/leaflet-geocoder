@@ -24,8 +24,8 @@ Get one from [here](https://locationiq.com/#register). It's free!
 
 ```html
 <!-- Load Leaflet from CDN -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.0.3/leaflet.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.3/leaflet.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.3/leaflet.js"></script>
 
 <!-- Load geocoding plugin after Leaflet -->
 <link rel="stylesheet" href="https://maps.locationiq.com/v2/libs/leaflet-geocoder/1.9.5/leaflet-geocoder-locationiq.min.css">
@@ -47,6 +47,85 @@ L.control.geocoder('<your-api-key>').addTo(map);
 ```
 
 **Step 4**: Rejoice!
+
+## Advanced usage: To use autocomplete geocoder without the map
+## Demo
+
+[See it in action!](https://maps.locationiq.com/search_only.html)
+
+**Step 1:** In HTML, import the required Leaflet JavaScript and CSS files. Start quickly with hosted libraries!
+
+```html
+<!-- Load Leaflet from CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.3/leaflet.js">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.3/leaflet.css"></script>
+
+<!-- Load geocoding plugin after Leaflet -->
+<link rel="stylesheet" href="https://maps.locationiq.com/v2/libs/leaflet-geocoder/1.9.5/leaflet-geocoder-locationiq.min.css">
+<script src="https://maps.locationiq.com/v2/libs/leaflet-geocoder/1.9.5/leaflet-geocoder-locationiq.min.js"></script>
+```
+
+**Step 2:** In JavaScript, initialize your Leaflet map.
+
+```javascript
+// Initialize an empty map without layers (invisible map)
+var map = L.map('map', {
+    center: [40.7259, -73.9805], // Map loads with this location as center
+    zoom: 12,
+    scrollWheelZoom: true,
+    zoomControl: false,
+    attributionControl: false,
+});
+```
+
+**Step 3:** In JavaScript, add your geocoder including the options with your [LocationIQ API key]((https://locationiq.com/#register)).
+
+```javascript
+//Geocoder options
+var geocoderControlOptions = {
+    bounds: false,          //To not send viewbox
+    markers: false,         //To not add markers when we geocoder
+    attribution: null,      //No need of attribution since we are not using maps
+    expanded: true,         //The geocoder search box will be initialized in expanded mode
+    panToPoint: false       //Since no maps, no need to pan the map to the geocoded-selected location
+}
+
+//Initialize the geocoder
+var geocoderControl = new L.control.geocoder('<your-api-key>', geocoderControlOptions).addTo(map).on('select', function (e) {
+    displayLatLon(e.feature.feature.display_name, e.latlng.lat, e.latlng.lng);
+});
+```
+
+**Step 4**: Add the following CSS
+
+```html
+<style type="text/css">
+  body {
+      margin: 0;
+  }
+  #map {
+      width: 0;
+      height: 0;
+      background-color:transparent;
+      display: none;
+  }
+  #search-box {
+      padding-left: 20px;
+      padding-top: 20px;
+      width: 800px;
+      height: 100px;
+  }
+  #result {
+      padding-left: 20px;
+      padding-top: 20px;
+      width: 800px;
+      height: 100px;
+  }
+  .leaflet-locationiq-results{
+      padding-top: 45px;
+  }
+</style>
+```
 
 ## Customizing the plugin
 

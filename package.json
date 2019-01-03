@@ -32,7 +32,7 @@
   "author": [
     "gopi_ar"
   ],
-  "license": "CC BY 4.0",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/locationiq/leaflet-geocoder/issues"
   },

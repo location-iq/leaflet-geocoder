@@ -1,7 +1,7 @@
 /*
  * leaflet-geocoder-locationiq
  * Leaflet plugin to search (geocode) using LocationIQ Search
- * License: CC BY 4.0
+ * License: MIT
  * (c) LocationIQ
  */
 'use strict';

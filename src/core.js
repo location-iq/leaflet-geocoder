@@ -514,7 +514,7 @@ var Geocoder = L.Control.extend({
       }
       resultItem.innerHTML += 
         "<div class='name'>" + this.highlight(resultItem.name, input) + "</div>"
-        + "<div class='address'>" + resultItem.address + "</div>";
+        + "<div class='address'>" + this.highlight(resultItem.address, input) + "</div>";
     }
   },
 

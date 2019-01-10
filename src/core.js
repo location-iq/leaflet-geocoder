@@ -512,9 +512,9 @@ var Geocoder = L.Control.extend({
       } else {
         resultItem.address = " ";
       }
-      resultItem.innerHTML += this.highlight(
-        "<div class='name'>" + resultItem.name + "</div>"
-        + "<div class='address'>" + resultItem.address + "</div>", input);
+      resultItem.innerHTML += 
+        "<div class='name'>" + this.highlight(resultItem.name, input) + "</div>"
+        + "<div class='address'>" + this.highlight(resultItem.address, input) + "</div>";
     }
   },
 

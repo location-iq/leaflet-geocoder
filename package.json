@@ -30,6 +30,8 @@
     "locationiq"
   ],
   "author": [
+    "Harish Krishna",
+    "Lou Huang <lou@mapzen.com>",
     "gopi_ar"
   ],
   "license": "MIT",

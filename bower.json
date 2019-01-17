@@ -3,6 +3,8 @@
   "version": "1.9.4",
   "homepage": "https://github.com/locationiq/leaflet-geocoder",
   "authors": [
+    "Harish Krishna",
+    "Lou Huang <lou@mapzen.com>",
     "gopi-ar"
   ],
   "description": "Add LocationIQ geocoding to your Leaflet map.",

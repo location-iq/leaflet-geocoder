@@ -2,7 +2,7 @@
  * leaflet-geocoder-locationiq
  * Leaflet plugin to search (geocode) using LocationIQ Search
  * License: MIT
- * (c) LocationIQ
+ * (c) Mapzen, LocationIQ
  */
 'use strict';
 

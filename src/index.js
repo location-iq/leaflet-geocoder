@@ -3,7 +3,7 @@
  * Leaflet plugin to search (geocode) using LocationIQ Search or your
  *
  * License: MIT
- * (c) LocationIQ
+ * (c) Mapzen, LocationIQ
  */
 ;(function (root, factory) { // eslint-disable-line no-extra-semi
   var L;

@@ -17,7 +17,7 @@ var corslite = require('@mapbox/corslite');
 var throttle = require('./utils/throttle');
 var escapeRegExp = require('./utils/escapeRegExp');
 
-var VERSION = '1.9.5';
+var VERSION = '1.9.6';
 //todo: make this configurable
 var MINIMUM_INPUT_LENGTH_FOR_AUTOCOMPLETE = 2;
 var FULL_WIDTH_MARGIN = 20; // in pixels
@@ -516,6 +516,13 @@ var Geocoder = L.Control.extend({
       } else {
         resultItem.address = " ";
       }
+      
+      if(typeof feature.display_name !== 'undefined') {
+        resultItem.display_name = feature.display_name;
+      } else {
+        resultItem.display_name = " ";
+      }
+
       resultItem.innerHTML += 
         "<div class='name'>" + this.highlight(resultItem.name, input) + "</div>"
         + "<div class='address'>" + this.highlight(resultItem.address, input) + "</div>";
@@ -576,7 +583,7 @@ var Geocoder = L.Control.extend({
 
   setSelectedResult: function (selected, originalEvent) {
     var latlng = L.latLng(selected.coords.lat, selected.coords.lon);
-    this._input.value = (selected.name + ", " + selected.address) || selected.textContent || selected.innerText;
+    this._input.value = (selected.display_name) || selected.textContent || selected.innerText;
     if (selected.boundingbox && !options.overrideBbox) {
       this.removeMarkers();
       this.fitBoundingBox(selected.boundingbox);       

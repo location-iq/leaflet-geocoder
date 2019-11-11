@@ -247,6 +247,10 @@ var Geocoder = L.Control.extend({
     
     params.format = 'json';
 
+    if (this.options.source !== undefined) {
+      params.source = this.options.source;
+    }
+
     var newParams = this.options.params;
 
     if (!newParams) {

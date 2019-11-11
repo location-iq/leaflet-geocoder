@@ -17,7 +17,7 @@ var corslite = require('@mapbox/corslite');
 var throttle = require('./utils/throttle');
 var escapeRegExp = require('./utils/escapeRegExp');
 
-var VERSION = '1.9.5';
+var VERSION = '1.9.6';
 //todo: make this configurable
 var MINIMUM_INPUT_LENGTH_FOR_AUTOCOMPLETE = 2;
 var FULL_WIDTH_MARGIN = 20; // in pixels

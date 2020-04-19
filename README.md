@@ -30,6 +30,15 @@ Get one from [here](https://locationiq.com/#register). It's free!
 <!-- Load geocoding plugin after Leaflet -->
 <link rel="stylesheet" href="https://maps.locationiq.com/v2/libs/leaflet-geocoder/1.9.6/leaflet-geocoder-locationiq.min.css">
 <script src="https://maps.locationiq.com/v2/libs/leaflet-geocoder/1.9.6/leaflet-geocoder-locationiq.min.js"></script>
+
+<body>
+<!-- For the invisible map -->
+<div id="map"></div>
+<!-- For the search box -->
+<div id="search-box"></div>
+<!-- To display the result -->
+<div id="result"></div>
+</body>
 ```
 
 **Step 2:** In JavaScript, initialize your Leaflet map.
@@ -63,6 +72,15 @@ L.control.geocoder('<your-api-key>').addTo(map);
 <!-- Load geocoding plugin after Leaflet -->
 <link rel="stylesheet" href="https://maps.locationiq.com/v2/libs/leaflet-geocoder/1.9.6/leaflet-geocoder-locationiq.min.css">
 <script src="https://maps.locationiq.com/v2/libs/leaflet-geocoder/1.9.6/leaflet-geocoder-locationiq.min.js"></script>
+
+<body>
+<!-- For the invisible map -->
+<div id="map"></div>
+<!-- For the search box -->
+<div id="search-box"></div>
+<!-- To display the result -->
+<div id="result"></div>
+</body>
 ```
 
 **Step 2:** In JavaScript, initialize your Leaflet map.

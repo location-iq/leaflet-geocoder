@@ -7,7 +7,7 @@ A plugin that adds the ability to search (geocode) a Leaflet-powered map using [
 
 ## Demo
 
-[See it in action!](https://maps.locationiq.com)
+[See it in action!](https://maps.locationiq.com/web_leaflet.php)
 
 ## Requirements
 
@@ -60,7 +60,7 @@ L.control.geocoder('<your-api-key>').addTo(map);
 ## Advanced usage: Autocomplete without a map
 ### Demo
 
-[See it in action!](https://maps.locationiq.com/search_only.html)
+[See it in action!](https://maps.locationiq.com/search_only_leaflet.html)
 
 **Step 1:** In HTML, import the required Leaflet JavaScript and CSS files. Start quickly with hosted libraries!
 
